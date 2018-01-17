@@ -1,11 +1,18 @@
 Types::MutationType = GraphQL::ObjectType.define do
-  name "Mutation"
+  name 'Mutation'
 
-  # TODO: Remove me
-  field :testField, types.String do
-    description "An example field added by the generator"
+  field :createPost, Types::PostType do
+    description 'Allows you to create a new blog post'
+
+    argument :title, !types.String
+    argument :body, !types.String
+
     resolve ->(obj, args, ctx) {
-      "Hello World!"
+      post = Post.new(args.to_h)
+
+      post.save
+
+      post
     }
   end
 end
